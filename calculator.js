@@ -11,14 +11,15 @@ const buttonEquals = document.querySelector("#equals")
 const screen = document.querySelector("#screen")
 
 let string = ''
-let stringTwo = []
-let stringThree = []
+let array = []
+
+
 
 const numButtons = document.querySelector("#container")
 
 
 numButtons.addEventListener('click', displayDynamic);
-numButtons.addEventListener('click', pushOperator);
+numButtons.addEventListener('click', pushToArray);
 
 buttonClear.addEventListener('click', clear);
 buttonEquals.addEventListener('click', equals)
@@ -55,7 +56,7 @@ function divide(a, b){
 function clear(){
    screen.innerHTML = '0'
     string=''
-    stringTwo = []
+    array = []
     
     
 }
@@ -79,11 +80,14 @@ function operate(operator, a, b){
 
 }
 
-function pushOperator(e){
-if(e.target.classList.contains('number')|| e.target.innerHTML === 'C'){
+function pushToArray(e){
+    if(e.target.innerHTML === 'C' || e.target.innerHTML === "="){
     return
-}
-    stringTwo.push(e.target.innerHTML)
+}   array.push(e.target.innerHTML)
+array = array.slice(0,3)
+console.log(array)
+
+
 }
 
 
@@ -92,13 +96,13 @@ function displayDynamic(event){
       return
     }
     
-  
+    
     let number = event.target.innerHTML
     string += number;
     screen.innerHTML = string;
     console.log(string)
     console.log(event)
-    stringTwo.push(event.target.innerHTML)
+    
 }
 
 
@@ -106,12 +110,12 @@ function displayDynamic(event){
 
 
 function equals(){
-stringTwo.length = 3;
+
 
 [a, operator, b] = string.split(/([-,*,/,+,])/)
+
 screen.innerHTML = (operate(operator, a, b)) 
 
-console.log(stringTwo)
 
 }
 
