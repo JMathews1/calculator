@@ -8,10 +8,13 @@ const buttonDivide = document.querySelector("#divide")
 const buttonClear = document.querySelector("#clear")
 const buttonEquals = document.querySelector("#equals")
 
+const buttonOperate = document.querySelectorAll(".operator")
+
 const screen = document.querySelector("#screen")
 
 let string = ''
-let array = []
+let stringTwo = ''
+
 
 
 
@@ -19,19 +22,24 @@ const numButtons = document.querySelector("#container")
 
 
 numButtons.addEventListener('click', displayDynamic);
-numButtons.addEventListener('click', pushToArray);
+
 
 buttonClear.addEventListener('click', clear);
 buttonEquals.addEventListener('click', equals)
 
-buttonAdd.addEventListener('click', addSymbol, equals)
 
-buttonSubtract.addEventListener('click', subtractSymbol, equals)
 
-buttonMultiply.addEventListener('click', multiplySymbol, equals)
+buttonAdd.addEventListener('click', addSymbol)
+buttonAdd.addEventListener('click', findIfOperator)
 
-buttonDivide.addEventListener('click', divideSymbol, equals)
+buttonSubtract.addEventListener('click', subtractSymbol)
+buttonSubtract.addEventListener('click', findIfOperator)
 
+buttonMultiply.addEventListener('click', multiplySymbol)
+buttonMultiply.addEventListener('click', findIfOperator)
+
+buttonDivide.addEventListener('click', divideSymbol)
+buttonDivide.addEventListener('click', findIfOperator)
 
 
 
@@ -54,9 +62,9 @@ function divide(a, b){
 
 
 function clear(){
-   screen.innerHTML = '0'
+   screen.textContent = '0'
     string=''
-    array = []
+    stringTwo=''
     
     
 }
@@ -80,33 +88,31 @@ function operate(operator, a, b){
 
 }
 
-function pushToArray(e){
-    if(e.target.innerHTML === 'C' || e.target.innerHTML === "="){
-    return
-}   array.push(e.target.innerHTML)
-array = array.slice(0,3)
-console.log(array)
 
 
-}
 
-
-function displayDynamic(event){
+    function displayDynamic(event){
     if (!event.target.classList.contains('number')){
       return
-    }
+    } 
     
     
-    let number = event.target.innerHTML
+    let number = event.target.textContent
     string += number;
-    screen.innerHTML = string;
+    screen.textContent = string;
     console.log(string)
     console.log(event)
     
 }
 
 
-
+function findIfOperator(){
+       
+     equals()
+       
+    
+    
+}
 
 
 function equals(){
@@ -114,7 +120,17 @@ function equals(){
 
 [a, operator, b] = string.split(/([-,*,/,+,])/)
 
-screen.innerHTML = (operate(operator, a, b)) 
+if(b == 0) return
+
+screen.textContent = (operate(operator, a, b)) 
+stringTwo += screen.textContent
+
+string = ''
+
+string += stringTwo
+console.log(string)
+console.log(stringTwo)
+
 
 
 }
@@ -123,20 +139,20 @@ screen.innerHTML = (operate(operator, a, b))
 
 function addSymbol(){
     string += '+'
-    screen.innerHTML= string;
+    screen.textContent= string;
 }
 
 function subtractSymbol(){
     string += '-'
-    screen.innerHTML= string;
+    screen.textContent= string;
 }
 
 function divideSymbol(){
     string += '/'
-    screen.innerHTML= string;
+    screen.textContent= string;
 }
 
 function multiplySymbol(){
     string += '*'
-    screen.innerHTML= string;
+    screen.textContent= string;
 }
